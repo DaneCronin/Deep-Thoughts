@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 //import ApolloServer
 const {ApolloServer} = require('apollo-server-express');
 //import middleware auth function
@@ -27,6 +28,19 @@ const startApolloServer = async (typeDefs, resolvers) => {
   //integrate our Apollo servers with the Express application as middleware
   server.applyMiddleware({app});
 
+
+ //Serve up static assets
+ //Check to see if Node environment is in production
+ if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+ } 
+//Wildcard get route to any route not defined, return production ready front-end 
+ app.get('*', (req,res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+ });
+
+
+ //Once Database is open connect to Port
   db.once('open', () => {
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
