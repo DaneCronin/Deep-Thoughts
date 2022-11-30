@@ -39,6 +39,10 @@ const startApolloServer = async (typeDefs, resolvers) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
  });
 
+ //Return 404 error if no page element found
+ app.get('*', (req,res) => {
+  res.status(404).sendFile(path.join(__dirname, './public/404.html'));
+ });
 
  //Once Database is open connect to Port
   db.once('open', () => {
