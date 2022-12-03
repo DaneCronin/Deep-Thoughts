@@ -59,3 +59,46 @@ export const QUERY_USER = gql `
     }
 `;
 
+//Query to return ALL data specific to the logged in user
+export const QUERY_ME = gql`
+{
+    me {
+        _id
+        username
+        email
+        friendCount
+        thoughts {
+            _id
+            thoughtText
+            createdAt
+            reactionCount
+            reactions {
+                _id
+                createdAt
+                reactionBody
+                username
+            }
+        }
+        friends {
+            _id
+            username
+        }
+    }
+}
+`;
+
+//More basic query of logged in user's data 
+export const QUERY_ME_BASIC = gql `
+{
+    me {
+        _id
+        username
+        email
+        friendCount
+        friends {
+            _id
+            username
+        }
+    }
+}
+`;
